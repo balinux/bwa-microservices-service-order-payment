@@ -29,9 +29,19 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $userId = $request->input('user_id');
+        $orders = Order::query();
+
+        $orders->when($userId, function ($query) use ($userId) {
+            return $query->where('user_id', '=', $userId);
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $orders->get()
+        ]);
     }
 
     /**
@@ -63,7 +73,7 @@ class OrderController extends Controller
         // transaction detail
 
         $transsactionDetail = [
-            'order_id' => $order->id.Str::random(5),
+            'order_id' => $order->id . Str::random(5),
             'gross_amount' => $course['price'],
         ];
 
