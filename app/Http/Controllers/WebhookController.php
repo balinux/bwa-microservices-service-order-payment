@@ -110,6 +110,10 @@ class WebhookController extends Controller
         // memberikan akses kelas ke user yang membayar
         if ($order->status === 'success') {
             // memberikan akses premium
+            createPremiumAccess([
+                'user_id' =>$order->user_id,
+                'course_id' =>$order->course_id
+            ]);
         }
         return response()->json('ok');
     }
