@@ -57,14 +57,6 @@ class WebhookController extends Controller
             ], 405);
         }
 
-        // jika order success maka tidak perlu melakukan perubahan
-        if ($order->status === 'success') {
-            return response()->json([
-                'status'  => 'error',
-                'message' => 'operation not permitted'
-            ], 405);
-        }
-
         if ($tansactionStatus == 'capture') {
             if ($fraudStatus == 'challenge') {
                 // TODO set transaction status on your database to 'challenge'
